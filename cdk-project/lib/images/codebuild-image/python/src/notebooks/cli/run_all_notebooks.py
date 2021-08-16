@@ -8,6 +8,7 @@ import pandas as pd
 from notebooks import kernels, parse
 from notebooks.run import execute_notebook, get_output_prefix, upload_notebook
 from notebooks.utils import default_bucket, ensure_session, kms_key
+from random import randint
 
 
 def parse_args(args):
@@ -65,6 +66,9 @@ def main():
         elif parse.skip(notebook):
             job_name = None
         else:
+            pause = randint(5,20)
+            print(f"Waiting {pause} seconds before executing the next job")
+            sleep(pause)
             image = kernels.kernel_image_for(notebook)
             s3path = upload_notebook(notebook, session)
             parameters = {"kms_key": kms_key()}
