@@ -184,16 +184,13 @@ def contains_code(notebook, snippets):
         bool: Whether any of the code snippets exist in the notebook's code cells.
 
     """
-    cells = all_cells(notebook)
-    source = [cell["source"] for cell in cells]
-
-    for cell_source in source:
-        for line in cell_source:
+    cells = code_cells(notebook)
+    for cell in cells:
+        for line in cell:
             if any(snippet in line for snippet in snippets):
                 return True
 
     return False
-
 
 def markdown_cells(notebook):
     """Get a list of all the Markdown cells in a given notebook.
